@@ -10,7 +10,7 @@ function deleteUser(){
   if (confirmation){
     $.ajax({
       type: 'DELETE',
-      url: '/users/delete/'+ $(this).data("id")
+      url: '/'+ $(this).data("id")
     })
     window.location.replace('/')
   }else{
