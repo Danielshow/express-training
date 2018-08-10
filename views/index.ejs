@@ -22,7 +22,11 @@
     <h2><%= title %></h2>
     <ul>
       <% for (let user of users){ %>
-        <li><%= user.name %> <%= user.email %></li>
+        <li> Name: <%= user.name %> - <a href="#" class='deleteUser' data-id="<%= user._id %>"> Delete</a>
+        <a href="#" class='updateUser' data-id="<%= user._id %>"> Update</a>
+        </li>
+        <li> Email <%= user.email %></li>
+        <br>
       <% } %>
     </ul>
 

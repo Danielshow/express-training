@@ -4,6 +4,7 @@ const path = require('path')
 const expressValidator = require('express-validator')
 const mongojs = require('mongojs');
 const db = mongojs('customerapp', ['users'])
+const ObjectId = mongojs.ObjectId;
 
 const app = express();
 
@@ -87,31 +88,23 @@ app.post('/users/add', (req, res) => {
       })
     })
   }
-
-
-/*
-  if (errors) {
-    res.render("index", {
-      title: "myCustomers",
-      //users: users,
-      errors: errors
-    });
-  } else {
-    let newUser = {
-      name: req.body.name,
-      email: req.body.email
-    }
-//add to database
-    db.users.insert(newUser, (err, result)=>{
-      if (err){
-        console.log(err);
-      }
-      res.redirect('/')
-    })
-    console.log('SUCCESS')
-  }*/
-
 });
+
+app.delete('/users/delete/:id', (req, res)=>{
+  db.users.remove({_id: ObjectId(req.params.id)}, (err, result)=>{
+    if (err){
+      console.log(err);
+    }
+    res.redirect('/');
+  })
+})
+
+app.get('/users/update/:id', (req, res)=>{
+  alert("jjjs")
+  res.render('update')
+  //db.users.update({})
+})
+
 
 app.listen(3000, () => {
   console.log('Server started on Port 3000...');
