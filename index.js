@@ -59,21 +59,36 @@ app.get('/', (req, res) => {
 
 app.post('/users/add', (req, res) => {
   req.checkBody('name', 'Name is required').notEmpty();
-  req.checkBody('Email', 'Email is required').notEmpty();
+  req.checkBody('email', 'Email is required').notEmpty();
 
   let errors = req.validationErrors();
-  console.log(errors)
 
-  let newUser = {
-    name: req.body.name,
-    email: req.body.email
-  }
-  db.users.insert(newUser, (err, result)=>{
-    if (err){
-      console.log(err);
+  if (errors){
+    db.users.find((err, docs) =>{
+      // docs is an array of all the documents in mycollection
+      //console.log(docs);
+      res.render("index", {
+        title: "myCustomers",
+        errors: errors,
+        users: docs
+      })
+    })
+  }else{
+    let newUser = {
+      name: req.body.name,
+      email: req.body.email
     }
-    res.redirect('/')
-  })
+    db.users.insert(newUser, (err, result)=>{
+      if (err){
+        console.log(err);
+      }
+      res.render('new', {
+        name : req.body.name
+      })
+    })
+  }
+
+
 /*
   if (errors) {
     res.render("index", {
